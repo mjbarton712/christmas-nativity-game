@@ -48,7 +48,7 @@ export class Mary extends Character {
         group.add(head);
         
         // Veil
-        const veilGeometry = new THREE.ConeGeometry(0.25, 0.5, 16);
+        const veilGeometry = new THREE.ConeGeometry(0.25, 0.25, 16);
         const veilMaterial = new THREE.MeshStandardMaterial({ 
             color: 0x87CEEB, // Sky blue
             metalness: 0.2,
@@ -63,18 +63,18 @@ export class Mary extends Character {
         group.add(veil);
         
         // Add a gentle halo effect
-        const haloGeometry = new THREE.TorusGeometry(0.25, 0.02, 8, 32);
-        const haloMaterial = new THREE.MeshStandardMaterial({
-            color: 0xFFD700,
-            emissive: 0xFFD700,
-            emissiveIntensity: 0.5,
-            transparent: true,
-            opacity: 0.6
-        });
-        const halo = new THREE.Mesh(haloGeometry, haloMaterial);
-        halo.position.y = 1.75;
-        halo.rotation.x = Math.PI / 2;
-        group.add(halo);
+        // const haloGeometry = new THREE.TorusGeometry(0.25, 0.02, 8, 32);
+        // const haloMaterial = new THREE.MeshStandardMaterial({
+        //     color: 0xFFD700,
+        //     emissive: 0xFFD700,
+        //     emissiveIntensity: 0.5,
+        //     transparent: true,
+        //     opacity: 0.6
+        // });
+        // const halo = new THREE.Mesh(haloGeometry, haloMaterial);
+        // halo.position.y = 1.75;
+        // halo.rotation.x = Math.PI / 2;
+        // group.add(halo);
         
         group.position.copy(this.position);
         this.mesh = group;

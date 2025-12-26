@@ -71,7 +71,7 @@ export class Dialog {
         style.textContent = `
             @keyframes blink {
                 0%, 50% { opacity: 1; }
-                51%, 100% { opacity: 0.3; }
+                51%, 100% { opacity: 0.7; }
             }
         `;
         document.head.appendChild(style);

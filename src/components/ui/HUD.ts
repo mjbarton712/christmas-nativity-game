@@ -35,6 +35,7 @@ export class HUD {
             padding: 10px;
             border-radius: 5px;
             max-width: 300px;
+            margin-top: 30px;
         `;
         this.container.appendChild(this.instructionsElement);
 
