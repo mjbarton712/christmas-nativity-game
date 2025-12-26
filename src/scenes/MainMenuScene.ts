@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { Scene } from './Scene';
 import { Menu } from '../components/ui/Menu';
-import { ProgressManager } from '../utils/ProgressManager';
+import { ProgressManager, GameProgress } from '../utils/ProgressManager';
 import type { Game } from '../game/Game';
 
 export class MainMenuScene extends Scene {
@@ -90,7 +90,7 @@ export class MainMenuScene extends Scene {
         const addStoryMenuItem = (
             title: string,
             scene: string,
-            storyKey: keyof typeof this.progressManager['getProgress']['stories']
+            storyKey: keyof GameProgress['stories']
         ) => {
             const unlocked = this.progressManager.isStoryUnlocked(storyKey);
             const completed = this.progressManager.hasPassedQuiz(storyKey);

@@ -19,8 +19,11 @@ export class Camera {
 
     public getViewMatrix(): number[] {
         // Implement a simple view matrix calculation
-        const viewMatrix = [
-            // Placeholder for view matrix values
+        const viewMatrix: number[] = [
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1
         ];
         return viewMatrix;
     }

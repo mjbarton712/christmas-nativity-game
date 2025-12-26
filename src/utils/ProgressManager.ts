@@ -19,7 +19,7 @@ export interface GameProgress {
 export class ProgressManager {
     private static readonly STORAGE_KEY = 'nativity-game-progress';
     private static instance: ProgressManager | null = null;
-    private progress: GameProgress;
+    private progress!: GameProgress;
 
     constructor() {
         // Implement singleton pattern
@@ -142,8 +142,10 @@ export class ProgressManager {
     }
 
     public getCompletionPercentage(): number {
-        const stories = Object.values(this.progress.stories);
-        const completed = stories.filter(s => s.completed && s.quizPassed).length;
+        const stories = Object.keys(this.progress.stories).map(key => 
+            this.progress.stories[key as keyof typeof this.progress.stories]
+        );
+        const completed = stories.filter((s: StoryProgress) => s.completed && s.quizPassed).length;
         return Math.round((completed / stories.length) * 100);
     }
 
@@ -169,7 +171,8 @@ export class ProgressManager {
         console.log('Total Score:', this.progress.totalScore);
         console.log('Completion:', this.getCompletionPercentage() + '%');
         console.log('\nStory Status:');
-        Object.entries(this.progress.stories).forEach(([name, status]) => {
+        (Object.keys(this.progress.stories) as Array<keyof GameProgress['stories']>).forEach((name) => {
+            const status = this.progress.stories[name];
             console.log(`  ${name}:`, {
                 unlocked: status.unlocked ? '🔓' : '🔒',
                 completed: status.completed ? '✓' : '✗',
