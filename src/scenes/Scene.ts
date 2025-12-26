@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { EnhancedLighting } from '../components/3d/PostProcessing';
 import type { Game } from '../game/Game';
 
 export abstract class Scene {
@@ -7,6 +8,7 @@ export abstract class Scene {
     protected game: Game;
     protected scene: THREE.Scene;
     protected camera: THREE.PerspectiveCamera;
+    protected enhancedLighting: EnhancedLighting;
     protected ambientLight: THREE.AmbientLight;
     protected directionalLight: THREE.DirectionalLight;
 
@@ -17,7 +19,8 @@ export abstract class Scene {
         
         // Create Three.js scene
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x87CEEB); // Sky blue
+        this.scene.background = new THREE.Color(0x1a1a2e); // Darker, more atmospheric
+        this.scene.fog = new THREE.Fog(0x1a1a2e, 10, 50); // Add atmospheric fog
         
         // Setup camera
         this.camera = new THREE.PerspectiveCamera(
@@ -29,18 +32,12 @@ export abstract class Scene {
         this.camera.position.set(0, 2, 5);
         this.camera.lookAt(0, 1, 0);
         
-        // Setup lighting
-        this.ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-        this.scene.add(this.ambientLight);
+        // Setup enhanced lighting
+        this.enhancedLighting = new EnhancedLighting(this.scene);
         
-        this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        this.directionalLight.position.set(5, 10, 7);
-        this.directionalLight.castShadow = true;
-        this.directionalLight.shadow.camera.near = 0.1;
-        this.directionalLight.shadow.camera.far = 50;
-        this.directionalLight.shadow.mapSize.width = 2048;
-        this.directionalLight.shadow.mapSize.height = 2048;
-        this.scene.add(this.directionalLight);
+        // Keep references for compatibility
+        this.ambientLight = new THREE.AmbientLight(0xffffff, 0);
+        this.directionalLight = this.enhancedLighting.getMainLight();
     }
 
     public activate(): void {
@@ -88,6 +85,7 @@ export abstract class Scene {
 
     public update(deltaTime: number): void {
         if (this.isActive) {
+            this.enhancedLighting.update(deltaTime);
             this.onUpdate(deltaTime);
         }
     }

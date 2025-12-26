@@ -19,38 +19,62 @@ export class Mary extends Character {
         // Create a simple representation of Mary with basic shapes
         const group = new THREE.Group();
         
-        // Body (dress) - cone shape
-        const bodyGeometry = new THREE.ConeGeometry(0.4, 1.2, 8);
+        // Body (dress) - cone shape with enhanced materials
+        const bodyGeometry = new THREE.ConeGeometry(0.4, 1.2, 16);
         const bodyMaterial = new THREE.MeshStandardMaterial({ 
             color: 0x6495ED, // Cornflower blue
-            flatShading: true 
+            metalness: 0.1,
+            roughness: 0.7,
+            emissive: 0x1a3a6e,
+            emissiveIntensity: 0.1
         });
         const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
         body.position.y = 0.6;
         body.castShadow = true;
+        body.receiveShadow = true;
         group.add(body);
         
         // Head
-        const headGeometry = new THREE.SphereGeometry(0.2, 8, 8);
+        const headGeometry = new THREE.SphereGeometry(0.2, 16, 16);
         const headMaterial = new THREE.MeshStandardMaterial({ 
             color: 0xFFDBAC, // Skin tone
-            flatShading: true 
+            metalness: 0.0,
+            roughness: 0.8
         });
         const head = new THREE.Mesh(headGeometry, headMaterial);
         head.position.y = 1.4;
         head.castShadow = true;
+        head.receiveShadow = true;
         group.add(head);
         
         // Veil
-        const veilGeometry = new THREE.ConeGeometry(0.25, 0.5, 8);
+        const veilGeometry = new THREE.ConeGeometry(0.25, 0.5, 16);
         const veilMaterial = new THREE.MeshStandardMaterial({ 
             color: 0x87CEEB, // Sky blue
-            flatShading: true 
+            metalness: 0.2,
+            roughness: 0.5,
+            transparent: true,
+            opacity: 0.9
         });
         const veil = new THREE.Mesh(veilGeometry, veilMaterial);
         veil.position.y = 1.65;
         veil.castShadow = true;
+        veil.receiveShadow = true;
         group.add(veil);
+        
+        // Add a gentle halo effect
+        const haloGeometry = new THREE.TorusGeometry(0.25, 0.02, 8, 32);
+        const haloMaterial = new THREE.MeshStandardMaterial({
+            color: 0xFFD700,
+            emissive: 0xFFD700,
+            emissiveIntensity: 0.5,
+            transparent: true,
+            opacity: 0.6
+        });
+        const halo = new THREE.Mesh(haloGeometry, haloMaterial);
+        halo.position.y = 1.75;
+        halo.rotation.x = Math.PI / 2;
+        group.add(halo);
         
         group.position.copy(this.position);
         this.mesh = group;
