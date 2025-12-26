@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-fullscreen">
     <title>Christmas Nativity Adventure</title>
     <style>
         * {
@@ -43,6 +46,16 @@
             color: #FFD700;
             margin-bottom: 20px;
             text-shadow: 0 0 10px #FFD700;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            #loading h1 {
+                font-size: 32px;
+            }
+            #loading p {
+                font-size: 16px;
+            }
         }
 
         #loading p {

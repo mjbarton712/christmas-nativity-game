@@ -40,6 +40,8 @@ export class Quiz {
             display: none;
             z-index: 2000;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+            max-height: 90vh;
+            overflow-y: auto;
         `;
 
         // Create title
@@ -88,6 +90,26 @@ export class Quiz {
             margin-top: 15px;
         `;
         this.container.appendChild(this.feedbackElement);
+
+        // Add responsive styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (max-width: 768px) {
+                #quiz-container {
+                    width: 95% !important;
+                    padding: 20px !important;
+                    max-height: 85vh !important;
+                }
+                #quiz-container > div:first-child {
+                    font-size: 22px !important;
+                }
+                #quiz-container button {
+                    padding: 12px 15px !important;
+                    font-size: 14px !important;
+                }
+            }
+        `;
+        document.head.appendChild(style);
 
         // Add to document
         document.body.appendChild(this.container);
@@ -141,6 +163,13 @@ export class Quiz {
                     this.handleAnswer(index, button);
                 }
             });
+
+            button.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                if (!this.answered) {
+                    this.handleAnswer(index, button);
+                }
+            }, { passive: false });
 
             this.optionsContainer.appendChild(button);
         });

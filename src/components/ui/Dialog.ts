@@ -31,6 +31,10 @@ export class Dialog {
             display: none;
             z-index: 1000;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
         `;
 
         // Create name element
@@ -53,7 +57,7 @@ export class Dialog {
 
         // Add continue indicator
         const continueIndicator = document.createElement('div');
-        continueIndicator.textContent = '▼ Press SPACE to continue';
+        continueIndicator.textContent = '▼ Press SPACE or TAP to continue';
         continueIndicator.style.cssText = `
             text-align: right;
             font-size: 14px;
@@ -63,15 +67,45 @@ export class Dialog {
         `;
         this.container.appendChild(continueIndicator);
 
+        // Make dialog tappable to advance
+        this.container.addEventListener('click', () => {
+            if (this.isVisible) {
+                console.log('Dialog clicked/tapped - calling advance()');
+                this.advance();
+            }
+        });
+
+        this.container.addEventListener('touchend', (e) => {
+            if (this.isVisible) {
+                e.preventDefault();
+                console.log('Dialog tapped - calling advance()');
+                this.advance();
+            }
+        }, { passive: false });
+
         // Add to document
         document.body.appendChild(this.container);
 
-        // Add CSS animation
+        // Add CSS animation and responsive styles
         const style = document.createElement('style');
         style.textContent = `
             @keyframes blink {
                 0%, 50% { opacity: 1; }
                 51%, 100% { opacity: 0.7; }
+            }
+            @media (max-width: 768px) {
+                #dialog-box {
+                    width: 90% !important;
+                    bottom: 10px !important;
+                    padding: 15px !important;
+                    font-size: 16px !important;
+                }
+                #dialog-box > div:first-child {
+                    font-size: 18px !important;
+                }
+                #dialog-box > div:last-child {
+                    font-size: 13px !important;
+                }
             }
         `;
         document.head.appendChild(style);

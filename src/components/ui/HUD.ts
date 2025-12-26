@@ -39,6 +39,25 @@ export class HUD {
         `;
         this.container.appendChild(this.instructionsElement);
 
+        // Add responsive styling
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (max-width: 768px) {
+                #hud {
+                    top: 10px;
+                    left: 10px;
+                }
+                #hud > div:first-child {
+                    font-size: 18px !important;
+                }
+                #hud > div:last-child {
+                    font-size: 12px !important;
+                    max-width: 200px !important;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
         document.body.appendChild(this.container);
     }
 
@@ -47,7 +66,11 @@ export class HUD {
     }
 
     public setInstructions(instructions: string): void {
-        this.instructionsElement.textContent = instructions + '\nPress F for fullscreen';
+        // Replace keyboard references with universal controls
+        const mobileInstructions = instructions
+            .replace('Press SPACE', 'SPACE/TAP')
+            .replace('Press ESC', 'ESC');
+        this.instructionsElement.textContent = mobileInstructions + '\nPress F for fullscreen';
     }
 
     public show(): void {

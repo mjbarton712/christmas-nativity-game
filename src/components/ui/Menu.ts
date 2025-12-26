@@ -36,6 +36,9 @@ export class Menu {
             margin-bottom: 50px;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
             animation: glow 2s ease-in-out infinite;
+            text-align: center;
+            width: 100%;
+            padding: 0 20px;
         `;
         this.container.appendChild(this.titleElement);
 
@@ -45,6 +48,18 @@ export class Menu {
             @keyframes glow {
                 0%, 100% { text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700; }
                 50% { text-shadow: 0 0 20px #FFD700, 0 0 30px #FFD700, 0 0 40px #FFA500; }
+            }
+            @media (max-width: 768px) {
+                #main-menu h1 {
+                    font-size: 32px !important;
+                    margin-bottom: 30px !important;
+                }
+                #main-menu .menu-item {
+                    font-size: 18px !important;
+                    padding: 12px 30px !important;
+                    min-width: 200px !important;
+                    margin: 8px !important;
+                }
             }
         `;
         document.head.appendChild(style);
@@ -88,6 +103,9 @@ export class Menu {
                 cursor: pointer;
                 transition: all 0.3s;
                 font-family: 'Georgia', serif;
+                min-width: 250px;
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: transparent;
             `;
 
             button.addEventListener('mouseenter', () => {
@@ -103,6 +121,18 @@ export class Menu {
             button.addEventListener('click', () => {
                 item.callback();
             });
+
+            button.addEventListener('touchstart', () => {
+                button.style.background = 'rgba(255, 215, 0, 0.3)';
+                button.style.transform = 'scale(1.1)';
+            }, { passive: true });
+
+            button.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                button.style.background = 'rgba(255, 255, 255, 0.2)';
+                button.style.transform = 'scale(1)';
+                item.callback();
+            }, { passive: false });
 
             this.container.appendChild(button);
         });
